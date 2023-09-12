@@ -27,9 +27,7 @@ resource "aws_security_group" "sg" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-  tags = {
-    Name = "${var.name}-${var.env}-sg"
-  }
+  tags = merge(var.tags, { Name = "${var.name}-${var.env}-sg" })
 }
 
 
@@ -53,6 +51,7 @@ resource "aws_autoscaling_group" "asg" {
     id      = aws_launch_template.template.id
     version = "$Latest"
   }
+
   dynamic "tag" {
     for_each = local.asg_tags
     content {
@@ -61,7 +60,9 @@ resource "aws_autoscaling_group" "asg" {
       value               = tag.value
     }
   }
+
 }
+
 resource "aws_lb_target_group" "main" {
   name     = "${var.name}-${var.env}-tg"
   port     = var.app_port
