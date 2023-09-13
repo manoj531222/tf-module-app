@@ -75,15 +75,15 @@ resource "aws_lb_target_group" "main" {
   vpc_id   = var.vpc_id
   tags     = merge(var.tags, { Name = "${var.name}-${var.env}-tg" })
 
-  health_check {
-    enabled = true
-    interval = 5
-    path = "/health"
-    timeout = 4
-    healthy_threshold = 2
-    unhealthy_threshold = 2
-
-  }
+#  health_check {
+#    enabled = true
+#    interval = 5
+#    path = "/health"
+#    timeout = 4
+#    healthy_threshold = 2
+#    unhealthy_threshold = 2
+#
+#  }
 }
 
 resource "aws_lb_listener_rule" "rule" {
